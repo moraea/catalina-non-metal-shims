@@ -12,7 +12,7 @@ BOOL rimBeta()
 		{
 	    		return;
 		}
-		if([@[@"/System/Applications/Calendar.app/Contents/PlugIns/com.apple.iCal.CalendarNC.appex/Contents/MacOS/com.apple.iCal.CalendarNC",@"/Applications/Folx.app/Contents/MacOS/Folx",@"/System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter",@"/System/Library/CoreServices/Weather.app/Contents/PlugIns/com.apple.ncplugin.weather.appex/Contents/MacOS/com.apple.ncplugin.weather",@"/System/Library/CoreServices/StocksWidget.app/Contents/PlugIns/com.apple.ncplugin.stocks.appex/Contents/MacOS/com.apple.ncplugin.stocks"] containsObject:NSProcessInfo.processInfo.arguments[0]] || [NSProcessInfo.processInfo.arguments[0] containsString:@"/System/Library/PreferencePanes"])
+		if([@[@"/Applications/Folx.app/Contents/MacOS/Folx",@"/System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter"] containsObject:NSProcessInfo.processInfo.arguments[0]] || [NSProcessInfo.processInfo.arguments[0] containsString:@"/System/Library/PreferencePanes"] || [NSProcessInfo.processInfo.arguments[0] containsString:@".appex"])
 		{
 			rimBetaValue=0;
 		}
