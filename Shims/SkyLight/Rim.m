@@ -8,7 +8,11 @@ BOOL rimBeta()
 	dispatch_once(&rimBetaOnce,^()
 	{
 		rimBetaValue=[NSUserDefaults.standardUserDefaults boolForKey:@"Moraea_RimBeta"];
-		if([@[@"/System/Library/PrivateFrameworks/PaperKit.framework/Contents/LinkedNotesUIService.app/Contents/MacOS/LinkedNotesUIService",@"/System/Library/PreferencePanes/DesktopScreenEffectsPref.prefPane/Contents/Resources/DesktopPictures.prefPane/Contents/XPCServices/com.apple.preference.desktopscreeneffect.desktop.remoteservice.xpc/Contents/MacOS/com.apple.preference.desktopscreeneffect.desktop.remoteservice",@"/System/Library/PreferencePanes/DesktopScreenEffectsPref.prefPane/Contents/Resources/ScreenEffects.prefPane/Contents/XPCServices/com.apple.preference.desktopscreeneffect.screeneffects.remoteservice.xpc/Contents/MacOS/com.apple.preference.desktopscreeneffect.screeneffects.remoteservice",@"/System/Library/PrivateFrameworks/AOSUI.framework/Versions/A/XPCServices/AccountProfileRemoteViewService.xpc/Contents/MacOS/AccountProfileRemoteViewService",@"/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService",@"/System/Library/PrivateFrameworks/LocalAuthenticationUI.framework/Versions/A/XPCServices/LocalAuthenticationRemoteService.xpc/Contents/MacOS/LocalAuthenticationRemoteService",@"/System/iOSSupport/System/Library/PrivateFrameworks/WorkflowUI.framework/PlugIns/WidgetConfigurationExtension.appex/Contents/MacOS/WidgetConfigurationExtension",@"/System/iOSSupport/System/Library/PrivateFrameworks/AvatarUI.framework/PlugIns/AvatarPickerMemojiPicker.appex/Contents/MacOS/AvatarPickerMemojiPicker",@"/System/iOSSupport/System/Library/PrivateFrameworks/AvatarUI.framework/PlugIns/AvatarPickerPosePicker.appex/Contents/MacOS/AvatarPickerPosePicker",@"/Applications/Folx.app/Contents/MacOS/Folx"] containsObject:NSProcessInfo.processInfo.arguments[0]])
+		if(getpid()<200)
+		{
+	    		return;
+		}
+		if([@[@"/System/Applications/Calendar.app/Contents/PlugIns/com.apple.iCal.CalendarNC.appex/Contents/MacOS/com.apple.iCal.CalendarNC",@"/Applications/Folx.app/Contents/MacOS/Folx",@"/System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter",@"/System/Library/CoreServices/Weather.app/Contents/PlugIns/com.apple.ncplugin.weather.appex/Contents/MacOS/com.apple.ncplugin.weather",@"/System/Library/CoreServices/StocksWidget.app/Contents/PlugIns/com.apple.ncplugin.stocks.appex/Contents/MacOS/com.apple.ncplugin.stocks"] containsObject:NSProcessInfo.processInfo.arguments[0]] || [NSProcessInfo.processInfo.arguments[0] containsString:@"/System/Library/PreferencePanes"])
 		{
 			rimBetaValue=0;
 		}
@@ -63,8 +67,8 @@ void removeFakeRim(unsigned int windowID)
 
 void SLSWindowSetShadowProperties(unsigned int edi_windowID,NSDictionary* rsi_properties)
 {	
-	NSNumber* value=rsi_properties[@"com.apple.WindowShadowInnerRimStyleWhiteActive"];
-	if(rimBeta()&&value&&value.doubleValue==1)
+	NSNumber* value=rsi_properties[@"com.apple.WindowShadowRimDensityActive"];
+	if(rimBeta()==1&&value&&value.doubleValue>=0.7)
 	{
 		addFakeRim(edi_windowID);
 	}
