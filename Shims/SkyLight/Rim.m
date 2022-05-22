@@ -12,7 +12,7 @@ BOOL rimBeta()
 		{
 	    		return;
 		}
-		if([@[@"/Applications/Folx.app/Contents/MacOS/Folx",@"/System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter"] containsObject:NSProcessInfo.processInfo.arguments[0]] || [NSProcessInfo.processInfo.arguments[0] containsString:@"/System/Library/PreferencePanes"] || [NSProcessInfo.processInfo.arguments[0] containsString:@".appex"])
+		if([NSProcessInfo.processInfo.arguments[0] containsString:@".prefPane"]||[NSProcessInfo.processInfo.arguments[0] containsString:@".appex"]||[NSProcessInfo.processInfo.arguments[0] containsString:@"NotificationCenter.app"]||[NSProcessInfo.processInfo.arguments[0] containsString:@"Folx.app"])
 		{
 			rimBetaValue=0;
 		}
@@ -33,12 +33,7 @@ CALayer* layerNewWay(int wid)
 	
 		NSObject* window=[layerNewWayNSApp windowWithWindowNumber:wid];
 		NSObject* view=[window _borderView];
-	
-		if([NSStringFromClass(view.class) isEqual:@"NSNextStepFrame"])
-		{
-			[view setWantsLayer:true];
-		}
-		
+
 		CALayer* layer=[view layer];
 		while(layer.superlayer)
 		{
@@ -71,10 +66,18 @@ void SLSWindowSetShadowProperties(unsigned int edi_windowID,NSDictionary* rsi_pr
 	if(rimBeta()==1&&value&&value.doubleValue>=0.7)
 	{
 		addFakeRim(edi_windowID);
+		SLSWindowSetShadowPropertie$(edi_windowID,rsi_properties);
 	}
 	else
 	{
 		removeFakeRim(edi_windowID);
 	}
-	SLSWindowSetShadowPropertie$(edi_windowID,rsi_properties);
+	NSMutableDictionary* newProperties=rsi_properties.mutableCopy;
+	
+	newProperties[@"com.apple.WindowShadowInnerRimDensityActive"]=@0;
+	newProperties[@"com.apple.WindowShadowInnerRimDensityInactive"]=@0;
+	
+	SLSWindowSetShadowPropertie$(edi_windowID,newProperties);
+	
+	newProperties.release;
 }
