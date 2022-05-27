@@ -50,25 +50,3 @@ void releaseLayerDelegateIfNecessary(CALayer* layer)
 }
 
 @end
-
-void (*real_setDelegate)(CALayer*,SEL,NSObject*);
-void fake_setDelegate(CALayer* self,SEL sel,NSObject* delegate)
-{
-	releaseLayerDelegateIfNecessary(self);
-	
-	real_setDelegate(self,sel,delegate);
-}
-
-void (*real_dealloc)(CALayer*,SEL);
-void fake_dealloc(CALayer* self,SEL sel)
-{
-	releaseLayerDelegateIfNecessary(self);
-	
-	real_dealloc(self,sel);
-}
-
-void catalystSetup()
-{
-	swizzleImp(@"CALayer",@"setDelegate:",true,(IMP)fake_setDelegate,(IMP*)&real_setDelegate);
-	swizzleImp(@"CALayer",@"dealloc",true,(IMP)fake_dealloc,(IMP*)&real_dealloc);
-}
