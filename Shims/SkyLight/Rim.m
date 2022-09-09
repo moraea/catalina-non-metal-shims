@@ -12,7 +12,7 @@ BOOL rimBeta()
 		{
 	    		return;
 		}
-		if([NSProcessInfo.processInfo.arguments[0] containsString:@".prefPane"]||[NSProcessInfo.processInfo.arguments[0] containsString:@".appex"]||[NSProcessInfo.processInfo.arguments[0] containsString:@"NotificationCenter.app"]||[NSProcessInfo.processInfo.arguments[0] containsString:@"Folx.app"])
+		if([NSProcessInfo.processInfo.arguments[0] containsString:@".prefPane"]||[NSProcessInfo.processInfo.arguments[0] containsString:@".appex"]||[NSProcessInfo.processInfo.arguments[0] containsString:@"Simulator.app"]||[NSProcessInfo.processInfo.arguments[0] containsString:@"Folx.app"])
 		{
 			rimBetaValue=0;
 		}
@@ -49,6 +49,7 @@ void addFakeRim(unsigned int windowID)
 {
 	CALayer* layer=layerNewWay(windowID);
 	layer.borderWidth=1;
+	layer.cornerRadius=6;
 	CGColorRef color=CGColorCreateGenericRGB(1.0,1.0,1.0,0.2);
 	layer.borderColor=color;
 	CFRelease(color);
